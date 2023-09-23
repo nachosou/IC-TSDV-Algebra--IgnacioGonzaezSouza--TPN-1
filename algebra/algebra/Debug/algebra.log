@@ -1,0 +1,11 @@
+﻿  Source.cpp
+C:\Users\Nacho\source\repos\algebra\algebra\Source.cpp(11,1): warning C4326: return type of 'main' should be 'int' instead of 'void'
+C:\Users\Nacho\source\repos\algebra\algebra\Source.cpp(54,36): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Nacho\source\repos\algebra\algebra\Source.cpp(54,32): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Nacho\source\repos\algebra\algebra\Source.cpp(54,24): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Nacho\source\repos\algebra\algebra\Source.cpp(60,78): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Nacho\source\repos\algebra\algebra\Source.cpp(60,66): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Nacho\source\repos\algebra\algebra\Source.cpp(60,54): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Nacho\source\repos\algebra\algebra\Source.cpp(60,38): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Nacho\source\repos\algebra\algebra\Source.cpp(141,45): warning C4018: '<': signed/unsigned mismatch
+  algebra.vcxproj -> C:\Users\Nacho\source\repos\algebra\Debug\algebra.exe
