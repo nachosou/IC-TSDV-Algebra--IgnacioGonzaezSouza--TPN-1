@@ -5,7 +5,7 @@
 using namespace std;
 
 void ballMovement(Vector2& ball, int ballSpeed, int ballRadius);
-bool PointInPolygon(Vector2 ball, vector <Vector2> mouse);
+bool ballInPoly(Vector2 ball, vector <Vector2> mouse);
 
 void main()
 {
@@ -35,7 +35,7 @@ void main()
 
         if (mouse.size() > 2)  //si son mas de 2 lados se puede generar el poligono
         {
-            isInPoly = PointInPolygon(ball, mouse);
+            isInPoly = ballInPoly(ball, mouse);
         }
 
         if (isInPoly) //cambia el color de la pelota dependiendo de si esta adentro o no del poligono
@@ -134,7 +134,7 @@ void ballMovement(Vector2& ball, int ballSpeed, int ballRadius)
     }
 } 
 
-bool PointInPolygon(Vector2 ball, vector <Vector2> mouse)  //chequea si esta adentro o no del poligono
+bool ballInPoly(Vector2 ball, vector <Vector2> mouse)  //chequea si esta adentro o no del poligono
 {
     int raycastXD = 0;
 
