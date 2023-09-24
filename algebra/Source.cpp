@@ -1,46 +1,69 @@
 #include <iostream>
-#include <vector>
 #include "raylib.h"
+#include <vector>
 
 using namespace std;
 
-void ballMovement(Vector2& ball, int ballSpeed, int ballRadius);
-bool ballInPoly(Vector2 ball, vector <Vector2> mouse);
+struct line
+{
+    Vector2 start;
+    Vector2 end;
+};
 
-void main()
+void ballMovement(float& ballX, float& ballY, int speed);
+bool colLineLine(line line, vector<Vector2> vector);
+
+int main(void)
 {
     InitWindow(1366, 768, "raylib [core] example - basic window");
 
-    Vector2 ball;
-    ball.x = 75;
-    ball.y = 150;
-    int ballRadius = 25;
-    Color ballColor;
-    int counterVectors = 0;
-    int ballSpeed = 1200;
+    float ballX = 75;
+    float ballY = 150;
+    int speed = 1200;
+    int ballSpeed = 600;
+    Color ballColor = RED;
 
-    vector <Vector2> mouse; //"array dinamico" de vectores
-    
-    SetTargetFPS(144);
+    vector <Vector2> Mouse;
+
+    line right;
+    line left;
+    line up;
+    line down;
 
     while (!WindowShouldClose())
     {
-        ballMovement(ball, ballSpeed, ballRadius);
+        ballMovement(ballX, ballY, speed);
 
-        bool isInPoly = false;
+        right.start.x = ballX;  //genera la linea desde la pelota hasta el final de la pantalla hasta la derecha
+        right.start.y = ballY;
+        right.end.x = GetScreenWidth();
+        right.end.y = ballY;
 
-        if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) //toma el click del mouse para aumentar el "array dinamico" de vectores
+        left.start.x = 0;   //genera la linea desde la pelota hasta el final de la pantalla hasta la izquierda
+        left.start.y = ballY;
+        left.end.x = ballX;
+        left.end.y = ballY;
+
+        up.start.x = ballX;    //genera la linea desde la pelota hasta el final de la pantalla hasta arriba
+        up.start.y = 0;
+        up.end.x = ballX;
+        up.end.y = ballY;
+
+        down.start.x = ballX;    //genera la linea desde la pelota hasta el final de la pantalla hasta abajo
+        down.start.y = ballY;
+        down.end.x = ballX;
+        down.end.y = GetScreenHeight();
+
+        if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) //agrego la pos del mouse y se toca el boton iz
         {
-            mouse.push_back(GetMousePosition());
-            counterVectors++;
+            Mouse.push_back(GetMousePosition());
+        }
+        if (IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) // se borra lo dibujado
+        {
+            Mouse.clear();
         }
 
-        if (counterVectors > 3)  //si son mas de 2 lados se puede generar el poligono
-        {
-            isInPoly = ballInPoly(ball, mouse);
-        }
-
-        if (isInPoly) //cambia el color de la pelota dependiendo de si esta adentro o no del poligono
+        if (colLineLine(right, Mouse) && colLineLine(left, Mouse) && colLineLine(down, Mouse) && colLineLine(up, Mouse)) //si en todas las dirc las lineas se cortan existe colicion
         {
             ballColor = BLUE;
         }
@@ -51,103 +74,115 @@ void main()
 
         BeginDrawing();
 
-        ClearBackground(BLACK);
+        ClearBackground(RAYWHITE);
 
-        DrawCircle(ball.x, ball.y, ballRadius, ballColor);
+        DrawCircle(ballX, ballY, 25, ballColor);
 
-        if (mouse.size() > 1) //dibuja las lineas 
+        if (Mouse.size() > 1)
         {
-            for (int j = 1; j != mouse.size(); j++)
+            for (int j = 1; j != Mouse.size(); j++)
             {
-                DrawLine(mouse[j - 1].x, mouse[j - 1].y, mouse[j].x, mouse[j].y, WHITE);
+                DrawLine(Mouse[j - 1].x, Mouse[j - 1].y, Mouse[j].x, Mouse[j].y, RED);
             }
         }
+
         EndDrawing();
     }
 
     CloseWindow();
+    return 0;
 }
 
-//Movimiento de la pelota
-void ballMovement(Vector2& ball, int ballSpeed, int ballRadius) 
+void ballMovement(float& ballX, float& ballY, int speed)// movimiento de la pelota
 {
     if (IsKeyDown(KEY_W))
     {
-        if (ball.y >= 0 + ballRadius)
+        if (ballY >= 0 + 25)
         {
-            ball.y -= ballSpeed * GetFrameTime();
+            ballY -= speed * GetFrameTime();
         }
     }
 
     if (IsKeyDown(KEY_S))
     {
-        if (ball.y <= GetScreenHeight() - ballRadius)
+        if (ballY <= 768 - 25)
         {
-            ball.y += ballSpeed * GetFrameTime();
+            ballY += speed * GetFrameTime();
         }
     }
 
     if (IsKeyDown(KEY_A))
     {
-        if (ball.x >= 0 + ballRadius)
+        if (ballX >= 0 + 25)
         {
-            ball.x -= ballSpeed * GetFrameTime();
+            ballX -= speed * GetFrameTime();
         }
     }
 
     if (IsKeyDown(KEY_D))
     {
-        if (ball.x <= GetScreenWidth() - ballRadius)
+        if (ballX <= 1366 - 25)
         {
-            ball.x += ballSpeed * GetFrameTime();
+            ballX += speed * GetFrameTime();
         }
     }
 
     if (IsKeyDown(KEY_UP))
     {
-        if (ball.y >= 0 + ballRadius)
+        if (ballY >= 0 + 25)
         {
-            ball.y -= ballSpeed * GetFrameTime();
+            ballY -= speed * GetFrameTime();
         }
     }
 
     if (IsKeyDown(KEY_DOWN))
     {
-        if (ball.y <= GetScreenHeight() - ballRadius)
+        if (ballY <= 768 - 25)
         {
-            ball.y += ballSpeed * GetFrameTime();
+            ballY += speed * GetFrameTime();
         }
     }
 
     if (IsKeyDown(KEY_LEFT))
     {
-        if (ball.x >= 0 + ballRadius)
+        if (ballX >= 0 + 25)
         {
-            ball.x -= ballSpeed * GetFrameTime();
+            ballX -= speed * GetFrameTime();
         }
     }
 
     if (IsKeyDown(KEY_RIGHT))
     {
-        if (ball.x <= GetScreenWidth() - ballRadius)
+        if (ballX <= 1366 - 25)
         {
-            ball.x += ballSpeed * GetFrameTime();
+            ballX += speed * GetFrameTime();
         }
     }
-} 
+}
 
-bool ballInPoly(Vector2 ball, vector <Vector2> mouse)  //chequea si esta adentro o no del poligono
+//http://www.jeffreythompson.org/collision-detection/line-line.php
+//calcula si las lineas se cortan
+bool colLineLine(line line, vector<Vector2> vector)
 {
-    int raycastXD = 0;
+    float a;
+    float b;
 
-    for (int i = 0, j = mouse.size() - 1; i < mouse.size(); j = i++)
+    if (vector.size() > 4)
     {
-        if ((mouse[i].y > ball.y) != (mouse[j].y > ball.y) &&
-            (ball.x < (mouse[j].x - mouse[i].x) * (ball.y - mouse[i].y) / (mouse[j].y - mouse[i].y) + mouse[i].x))
+        for (int i = 1; i != vector.size(); i++)
         {
-            raycastXD++;
-        }
-    }
+            a = (((vector[i].x - vector[i - 1].x) * (line.start.y - vector[i - 1].y)) - ((vector[i].y - vector[i - 1].y) * (line.start.x - vector[i - 1].x)))
+                / (((vector[i].y - vector[i - 1].y) * (line.end.x - line.start.x)) - ((vector[i].x - vector[i - 1].x) * (line.end.y - line.start.y)));
 
-    return (raycastXD % 2 == 1);
+            b = ((line.end.x - line.start.x) * (line.start.y - vector[i - 1].y) - (line.end.y - line.start.y) * (line.start.x - vector[i - 1].x))
+                / (((vector[i].y - vector[i - 1].y) * (line.end.x - line.start.x)) - ((vector[i].x - vector[i - 1].x) * (line.end.y - line.start.y)));
+
+            if (a >= 0 && a <= 1 && b >= 0 && b <= 1)
+            {
+                return true;
+            }
+
+        }
+        return false;
+    }
 }
