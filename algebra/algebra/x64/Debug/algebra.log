@@ -1,4 +1,0 @@
-﻿  Source.cpp
-C:\Users\Nacho\source\repos\algebra\algebra\Source.cpp(7,1): warning C4326: return type of 'main' should be 'int' instead of 'void'
-C:\Users\Nacho\source\repos\algebra\algebra\Source.cpp(28,20): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-  algebra.vcxproj -> C:\Users\Nacho\source\repos\algebra\x64\Debug\algebra.exe
