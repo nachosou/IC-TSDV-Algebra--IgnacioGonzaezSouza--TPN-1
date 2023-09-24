@@ -16,6 +16,7 @@ void main()
     ball.y = 150;
     int ballRadius = 25;
     Color ballColor;
+    int counterVectors = 0;
     int ballSpeed = 1200;
 
     vector <Vector2> mouse; //"array dinamico" de vectores
@@ -31,9 +32,10 @@ void main()
         if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) //toma el click del mouse para aumentar el "array dinamico" de vectores
         {
             mouse.push_back(GetMousePosition());
+            counterVectors++;
         }
 
-        if (mouse.size() > 2)  //si son mas de 2 lados se puede generar el poligono
+        if (counterVectors > 3)  //si son mas de 2 lados se puede generar el poligono
         {
             isInPoly = ballInPoly(ball, mouse);
         }
